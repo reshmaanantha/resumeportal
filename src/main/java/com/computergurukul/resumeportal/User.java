@@ -1,4 +1,4 @@
-package com.computergurukul.resumeportal.models;
+package com.computergurukul.resumeportal;
 
 
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 	@Entity
-	@Table(name = "User")
+	@Table(name="User")
 	public class User {
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.AUTO)
