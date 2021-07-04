@@ -1,7 +1,11 @@
 package com.computergurukul.resumeportal.models;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,12 +21,20 @@ public class Job {
 	    private String company;
 	    private String designation;
 	    private LocalDate startDate;
-	    @Override
-		public String toString() {
-			return "Job [id=" + id + ", company=" + company + ", designation=" + designation + ", startDate="
-					+ startDate + ", endDate=" + endDate + "]";
-		}
-		private LocalDate endDate;
+	    private LocalDate endDate;
+	    private boolean isCurrentJob;
+	    @ElementCollection(targetClass=String.class)
+	    private List<String> responsibilities = new ArrayList();
+
+	    public List<String> getResponsibilities() {
+	        return responsibilities;
+	    }
+
+	    public void setResponsibilities(List<String> responsibilities) {
+	        this.responsibilities = responsibilities;
+	    }
+	   
+		
 		public int getId() {
 			return id;
 		}
@@ -34,6 +46,12 @@ public class Job {
 		}
 		public void setCompany(String company) {
 			this.company = company;
+		}
+		public boolean isCurrentJob() {
+			return isCurrentJob;
+		}
+		public void setCurrentJob(boolean isCurrentJob) {
+			this.isCurrentJob = isCurrentJob;
 		}
 		public String getDesignation() {
 			return designation;
@@ -53,5 +71,12 @@ public class Job {
 		public void setEndDate(LocalDate endDate) {
 			this.endDate = endDate;
 		}
+		public String getFormattedStartDate() {
+	        return startDate.format(DateTimeFormatter.ofPattern("MMM yyyy"));
+	    }
+
+	    public String getFormattedEndDate() {
+	        return endDate.format(DateTimeFormatter.ofPattern("MMM yyyy"));
+	    }
 
 }
