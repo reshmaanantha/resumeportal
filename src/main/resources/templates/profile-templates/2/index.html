@@ -34,26 +34,23 @@
 
     <div id="page-wrap">
     
-        <img src="../profile-templates/2/images/cthulu.png" alt="Photo of Cthulu" id="pic" />
-    
+    <!--     <img src="../profile-templates/2/images/cthulu.png" alt="Photo of Cthulu" id="pic" />
+     -->
         <div id="contact-info" class="vcard">
         
             <!-- Microformats! -->
         
-            <h1 class="fn" th:text="${userProfile.firstName}">C'thulhu</h1>
+            <h1 class="fn" th:text="${userProfile.firstName}">Name</h1>
         
             <p>
-                Cell: <span class="tel" th:text="${userProfile.phone}">555-666-7777</span><br />
-                Email: <a class="email"   th:text="${userProfile.email}">greatoldone@lovecraft.com</a>
+                Cell: <span class="tel" th:text="${userProfile.phone}">Phone</span><br />
+                Email: <a class="email"   th:text="${userProfile.email}">Email</a>
             </p>
         </div>
                 
         <div id="objective">
             <p th:text="${userProfile.summary}">
-                I am an outgoing and energetic (ask anybody) young professional, seeking a 
-                career that fits my professional skills, personality, and murderous tendencies. 
-                My squid-like head is a masterful problem solver and inspires fear in who gaze upon it. 
-                I can bring world domination to your organization. 
+               Summary
             </p>
         </div>
         
@@ -63,47 +60,34 @@
             <dd class="clear"></dd>
             
             <dt>Education</dt>
-            <dd>
-                <h2>Withering Madness University - Planet Vhoorl</h2>
-                <p><strong>Major:</strong> Public Relations<br />
-                   <strong>Minor:</strong> Scale Tending</p>
+            <dd  th:each="education :${userProfile.educations}">
+                <h2 th:text="${education.college}"> Withering Madness University - Planet Vhoorl</h2>
+                <p th:text="${education.qualification}"> Public Relations<br />
+                   <span th:text="${education.summary}"> Scale Tending</span></p>
             </dd>
             
             <dd class="clear"></dd>
             
             <dt>Skills</dt>
-            <dd>
-                <h2>Office skills</h2>
-                <p>Office and records management, database administration, event organization, customer support, travel coordination</p>
+            <dd th:each="skill :${userProfile.skills}">
+                <h2 th:text="${skill}">Office skills</h2>
                 
-                <h2>Computer skills</h2>
-                <p>Microsoft productivity software (Word, Excel, etc), Adobe Creative Suite, Windows</p>
             </dd>
             
             <dd class="clear"></dd>
             
             <dt>Experience</dt>
-            <dd>
-                <h2>Doomsday Cult <span>Leader/Overlord - Baton Rogue, LA - 1926-2010</span></h2>
-                <ul>
-                    <li>Inspired and won highest peasant death competition among servants</li>
-                    <li>Helped coordinate managers to grow cult following</li>
-                    <li>Provided untimely deaths to all who opposed</li>
+            <dd th:each="job :${userProfile.jobs}">
+                <h2  th:text="${job.company}"> Doomsday Cult <span th:text="${job.designation}">Leader/Overlord - Baton Rogue,</span><span th:text="${job.formattedStartDate}"> LA - 1926</span> - <span  th:text="${job.isCurrentJob}?'Present':${job.formattedEndDate}">2010</span></h2>
+                <ul th:each="responsibility :${job.responsibilities}">
+                    <li th:text="${responsibility}">Inspired and won highest peasant death competition among servants</li>
+                    
                 </ul>
                 
-                <h2>The Watering Hole <span>Bartender/Server - Milwaukee, WI - 2009</span></h2>
-                <ul>
-                    <li>Worked on grass-roots promotional campaigns</li>
-                    <li>Reduced theft and property damage percentages</li>
-                    <li>Janitorial work, Laundry</li>
-                </ul> 
+               
             </dd>
             
-            <dd class="clear"></dd>
-            
-            <dt>Hobbies</dt>
-            <dd>World Domination, Deep Sea Diving, Murder Most Foul</dd>
-            
+           
             <dd class="clear"></dd>
             
             <dt>References</dt>
