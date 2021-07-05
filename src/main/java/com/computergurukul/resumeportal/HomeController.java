@@ -1,5 +1,6 @@
 package com.computergurukul.resumeportal;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.computergurukul.resumeportal.models.Education;
 import com.computergurukul.resumeportal.models.Job;
@@ -63,14 +65,9 @@ public class HomeController {
         profile1.getEducations().add(e1);
         profile1.getEducations().add(e2);
         profile1.getSkills().clear();
-
         profile1.getSkills().add("JAVA");
-        profile1.getSkills().add("SPRING BOOT");
-        
-        
-
-
-        
+        profile1.getSkills().add("SPRING BOOT");     
+      
         profile1.getJobs().clear();
         profile1.getJobs().add(job1);
         profile1.getJobs().add(job2);
@@ -78,10 +75,22 @@ public class HomeController {
 		return "profile";
 	}
 	@GetMapping("/edit")
-	public String edit() {
-		return "edit pg";
+	public String edit(Model theModel, Principal principal) {
+		String userId=principal.getName();
+		Optional<UserProfile> userProfileOptional=userProfileRepository.findByUserName(userId);
+		userProfileOptional.orElseThrow(() -> new UsernameNotFoundException("Not found: " + userId));
+		UserProfile userProfile=userProfileOptional.get();
+		theModel.addAttribute("userId",principal.getName());
+		theModel.addAttribute("userProfile",userProfile);
+		return "profile-edit";
 	}
 	
+	@PostMapping("/edit")
+	public String postEdit(Model theModel, Principal principal) {
+		String userId=principal.getName();
+	//	theModel.addAttribute("userId",principal.getName());
+		return "redirect:/view/" + userId;
+	}
 	@GetMapping("/view/{userId}")
 	public String view(@PathVariable String userId,Model theModel) {
 		
