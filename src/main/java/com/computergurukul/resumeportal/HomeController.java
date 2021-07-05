@@ -132,8 +132,12 @@ public class HomeController {
 		return "redirect:/view/" + userName;
 	}
 	@GetMapping("/view/{userId}")
-	public String view(@PathVariable String userId,Model theModel) {
-		
+	public String view(Principal principal,@PathVariable String userId,Model theModel) {
+		if(principal!=null&&principal.getName()!="")
+		{
+		boolean currentUserProfile=principal.getName().equals(userId);
+		theModel.addAttribute("currentUserProfile",currentUserProfile);
+		}
 		Optional<UserProfile> userProfileOptional=userProfileRepository.findByUserName(userId);
 		userProfileOptional.orElseThrow(() -> new UsernameNotFoundException("Not found: " + userId));
 		UserProfile userProfile=userProfileOptional.get();
